@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hitokoto - 一言 - ヒトコト - AD's API</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <link rel="shortcut icon" href="favicon.png">
+    </head>
+    <body>
+        <a href="https://api.imjad.cn">返回首页</a>
+        <p class="update">
+            本页面更新：<span id="index">读取中…</span><br />
+            一言api更新：<span id="api">读取中…</span><br />
+            一言数据更新：<span id="data_uid">读取中…</span>
+        </p>
+        <p>问题/反馈：ad # imjad.cn</p>
+        <p>调用超过<b><span id="hit"> -- </span></b>次</p>
+        <p>请求地址 https://api.imjad.cn/hitokoto/</p>
+        <p>请求方式 GET</p>
+        <p>请求参数<br />
+        charset 字符集，支持 gbk/utf-8，默认为 utf-8<br />
+        length 返回一句话的长度限制，超出则打断并添加省略号<br />
+        encode 数据格式，对应如下，默认为 json<br />
+        &nbsp;&nbsp;json 返回 JSON 格式数据<br />
+        &nbsp;&nbsp;js 返回函数名为 hitokoto 的 JavaScript 脚本，用于同步调用<br />
+        &nbsp;&nbsp;jsc 返回指定 CallBack 函数名的 JavaScript 脚本，可用于异步调用<br />
+        &nbsp;&nbsp;空 返回纯文本<br />
+        fun 用于异步调用时，指定 CallBack 的函数名<br />
+        source 值为 0 获取“系统收录”，为 1 获取“我的一言”，默认随机选择</p>
+        <div>
+            <div>
+            测试<br />
+                <form>
+                    charset:
+                    <select name="charset">
+                        <option value="utf-8" selected="selected">utf-8</option>
+                        <option value="gbk">gbk</option>
+                    </select>&nbsp;
+                    length:
+                    <input type="text" maxlength="3" name="length" value="50" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="width:25px;height:12px;">&nbsp;
+                    encode:
+                    <select name="encode">
+                        <option value="json" selected="selected">json</option>
+                        <option value="js">js</option>
+                        <option value="jsc">jsc</option>
+                        <option value="">无</option>
+                    </select>&nbsp;
+                    fun:
+                    <input type="text" name="fun" value="sync">&nbsp;
+                    source:
+                    <select name="source">
+                        <option value="" selected="selected">随机</option>
+                        <option value="0">系统收录</option>
+                        <option value="1">我的一言</option>
+                    </select>&nbsp;
+                    <input type="button" value="确定" onclick="get()">
+                </form>
+            </div>
+            <div>
+                <p>
+                    <input type="text" name="code" style="width:700px;">
+                </p>
+                <iframe id="hitokoto" frameborder=0 marginheight=0 marginwidth=0 seamless="seamless" style="width:700px; height: 50px; overflow-x:hidden; overflow-y:auto;" src=""></iframe>
+            </div>
+        </div>
+        <script>
+            var i = 0;
+            function GetQueryString(name){
+                var reg = new RegExp("(^|[&?])"+ name +"=([^&]*)(&|$)");
+                var r = (document.getElementsByName("code")[0].value).substr(1).match(reg);
+                if(r!=null){
+                    return  unescape(r[2]);
+                }else{
+                    return null;
+                }
+            }
+            function get(){
+                var charset = GetQueryString('charset');
+                var length = GetQueryString('length');
+                var encode = GetQueryString('encode');
+                var fun = GetQueryString('fun');
+                var source = GetQueryString('source');
+                if (i == 1){
+                    console.log("请求：https://api.imjad.cn/hitokoto/\n" + "参数：charset=" + charset + " length=" + length + " encode=" + encode + " fun=" + fun + " source=" + source + "\n" + "返回：" + document.getElementById('hitokoto').contentWindow.document.getElementsByTagName('pre')[0].innerHTML);
+                }else{
+                    i = 1;
+                }
+                document.getElementById("hitokoto").src = (document.getElementsByName("code")[0].value = "https://api.imjad.cn/hitokoto/?charset=" + document.getElementsByName("charset")[0].value +"&length=" +  document.getElementsByName("length")[0].value + "&encode=" + document.getElementsByName("encode")[0].value + "&fun=" + document.getElementsByName("fun")[0].value + "&source=" + document.getElementsByName("source")[0].value) + "&iframe=true";
+            }
+        </script>
+        <script type="text/javascript" src="https://api.imjad.cn/hitokoto/?encode=js&charset=utf-8"></script>
+        <p id="hitokoto"><script>hitokoto()</script></p>
+        <p style="font-size:0.8em">© <script>document.write(new Date().getFullYear())</script> journey.ad</p>
+        <script>
+            function Ajax(type, url, data, success, failed){
+                // 创建ajax对象
+                var xhr = null;
+                if(window.XMLHttpRequest){
+                    xhr = new XMLHttpRequest();
+                } else {
+                    xhr = new ActiveXObject('Microsoft.XMLHTTP')
+                }
+             
+                var type = type.toUpperCase();
+                // 用于清除缓存
+                var random = Math.random();
+             
+                if(typeof data == 'object'){
+                    var str = '';
+                    for(var key in data){
+                        str += key+'='+data[key]+'&';
+                    }
+                    data = str.replace(/&$/, '');
+                }
+             
+                if(type == 'GET'){
+                    if(data){
+                        xhr.open('GET', url + '?' + data, true);
+                    } else {
+                        xhr.open('GET', url + '?t=' + random, true);
+                    }
+                    xhr.send();
+             
+                } else if(type == 'POST'){
+                    xhr.open('POST', url, true);
+                    // 如果需要像 html 表单那样 POST 数据，请使用 setRequestHeader() 来添加 http 头。
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhr.send(data);
+                }
+             
+                // 处理返回数据
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState == 4){
+                        if(xhr.status == 200){
+                            success(xhr.responseText);
+                        } else {
+                            if(failed){
+                                failed(xhr.status);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            Ajax(  //Ajax(type, url, data, success, failed)
+                'get', 
+                'https://api.imjad.cn/hitokoto/counter.php', 
+                '', 
+                function(data){
+                    data = JSON.parse(data);
+                    document.getElementById("index").innerHTML = data.index;
+                    document.getElementById("api").innerHTML = data.api;
+                    document.getElementById("data_uid").innerHTML = data.data_uid;
+                    document.getElementById("hit").innerHTML = data.hit;
+                }, 
+                function(error){
+                    var spans = document.getElementsByClassName("update")[0].getElementsByTagName("span");
+                    for (var i=0;i<spans.length;i++){
+                        spans[i].innerHTML = "读取失败";
+                    }
+                });
+        </script>
+    </body>
+</html>
