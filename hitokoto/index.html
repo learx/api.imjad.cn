@@ -11,7 +11,8 @@
         <p class="update">
             本页面更新：<span id="index">读取中…</span><br />
             一言api更新：<span id="api">读取中…</span><br />
-            一言数据更新：<span id="data_uid">读取中…</span>
+            一言数据更新：<span id="data_uid">读取中…</span><br />
+            系统收录：<span id="number">读取中…</span>&nbsp;个人收录：<span id="number_uid">读取中…</span>
         </p>
         <p>问题/反馈：ad # imjad.cn</p>
         <p>调用超过<b><span id="hit"> -- </span></b>次</p>
@@ -152,6 +153,8 @@
                     document.getElementById("api").innerHTML = data.api;
                     document.getElementById("data_uid").innerHTML = data.data_uid;
                     document.getElementById("hit").innerHTML = data.hit;
+                    document.getElementById("number").innerHTML = data.number;
+                    document.getElementById("number_uid").innerHTML = data.number_uid;
                 }, 
                 function(error){
                     var spans = document.getElementsByClassName("update")[0].getElementsByTagName("span");

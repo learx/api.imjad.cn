@@ -21,7 +21,9 @@ $out = '{
 "index":"'.date("Y.m.d",filemtime("index.html")).'",
 "api":"'.date("Y.m.d",filemtime("index.php")).'",
 "data":"'.date('Y.m.d',$cache['time']).'",
-"data_uid":"'.date('Y.m.d',$cacheuid['time']).'"
+"number":"'.$cache['num'].'",
+"data_uid":"'.date('Y.m.d',$cacheuid['time']).'",
+"number_uid":"'.$cacheuid['num'].'"
 }';
 echo $out;
 ?>
