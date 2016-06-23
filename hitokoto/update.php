@@ -64,18 +64,20 @@ file_put_contents('./cache_hitokotouid.php',$hitokotouid);
 
 $cache = @include './cache_hitokoto.php';
 $cacheuid = @include './cache_hitokotouid.php';
-  
-    echo 'hitokoto系统收录:';echo '<br>';
-    echo '本地缓存时间:',$cache['time']?date('Y-m-d H:i:s',$cache['time']):'无缓存';echo '<br>';
-    echo '条数:',$cache['num'];echo '<br>';
-    echo '云端缓存时间:',date('Y-m-d H:i:s',$hitokototime);echo '<br>';
-    echo ($cache['time']>=$hitokototime)?'<font color="#009900">无更新</font>':'<font color="#0000CC">有更新</font>';echo '<br><br>';
-    
-    echo 'hitokoto个人收录:';echo '<br>';
-    echo '本地缓存时间:',$cache['time']?date('Y-m-d H:i:s',$cacheuid['time']):'无缓存';echo '<br>';
-    echo '条数:',$cacheuid['num'];echo '<br>';
-    echo '云端缓存时间:',date('Y-m-d H:i:s',$hitokototime);echo '<br>';
-    echo ($cacheuid['time']>=$hitokotouidtime)?'<font color="#009900">无更新</font>':'<font color="#0000CC">有更新</font>';echo '<br><br>';
-    
-    echo '<form method="POST"><input type="submit" value="更新" name="update" /></form>';
+
+header('Content-Type: text/html;charset=utf-8');
+
+echo 'hitokoto系统收录:';echo '<br>';
+echo '本地缓存时间:',$cache['time']?date('Y-m-d H:i:s',$cache['time']):'无缓存';echo '<br>';
+echo '条数:',$cache['num'];echo '<br>';
+echo '云端缓存时间:',date('Y-m-d H:i:s',$hitokototime);echo '<br>';
+echo ($cache['time']>=$hitokototime)?'<font color="#009900">无更新</font>':'<font color="#0000CC">有更新</font>';echo '<br><br>';
+
+echo 'hitokoto个人收录:';echo '<br>';
+echo '本地缓存时间:',$cache['time']?date('Y-m-d H:i:s',$cacheuid['time']):'无缓存';echo '<br>';
+echo '条数:',$cacheuid['num'];echo '<br>';
+echo '云端缓存时间:',date('Y-m-d H:i:s',$hitokototime);echo '<br>';
+echo ($cacheuid['time']>=$hitokotouidtime)?'<font color="#009900">无更新</font>':'<font color="#0000CC">有更新</font>';echo '<br><br>';
+
+echo '<form method="POST"><input type="submit" value="更新" name="update" /></form>';
 ?>
